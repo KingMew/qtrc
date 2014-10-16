@@ -1,0 +1,48 @@
+qtrc v1.2.0
+by Mew151 from LD4all
+
+==Overview==
+
+qtrc is an application to remind you to reality check! It's pretty sweet.
+By the way, did you reality check?
+
+==Compiling qtrc==
+
+In order to compile qtrc, you need qt (really?) and qmake. You'll need to install
+your distribution's versions of the latest version of Qt and the Qt development (qt-devel) packages.
+Then you can simply run:
+	qmake
+	make
+	sudo make install
+
+And it will be done.
+
+==Running qtrc==
+
+To run qtrc, simply run "qtrc" from the terminal, file manager, start menu, etc.
+
+==Changelog==
+
+v1.2
++Added new popup graphics
+-And then proceeded to break them
+
+v1.1
++Added configuration window
++Added timer functionality to application
++Added "auto quit" timer
++Added install directories to qmake project file
++Changed a lot of the readme
+-Removed shell script
+-Removed fake autoconfig script
+-Removed Qt .pro.user files
+
+v1.0.3
++Fixed a bug where the application would not show up at all
+
+v1.0.2
++Now hides the application from the taskbar
++Fixed a bug where the application continued running after it quit
+
+v1.0.0
++First Release
