@@ -1,4 +1,4 @@
 qtrc
 ====
 
-Reality Check Program developed in Qt
+Reality Check reminder program slapped together in Qt
