@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     controller_window.cpp
 
 HEADERS  += mainwindow.h \
-    controller_window.h
+    controller_window.h \
+    global.h
 
 FORMS    += mainwindow.ui \
     controller_window.ui

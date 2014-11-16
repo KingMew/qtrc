@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <global.h>
 
 namespace Ui {
 class controller_window;
@@ -29,7 +30,11 @@ private:
     QTimer* stoptimer;
     QTimer* phasetimer;
     int min, max, stophours, phase;
+    RC_POSITION_MODE positionMode;
     bool phaseD;
+
+    void getPositionMode();
+    void moveToCenter();
 };
 
 #endif // CONTROLLER_WINDOW_H

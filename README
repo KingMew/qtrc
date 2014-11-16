@@ -1,4 +1,4 @@
-qtrc v1.2.0
+qtrc v1.3.0
 by Mew151 from LD4all
 
 ==Overview==
@@ -22,6 +22,12 @@ And it will be done.
 To run qtrc, simply run "qtrc" from the terminal, file manager, start menu, etc.
 
 ==Changelog==
+
+v1.3
++Fixed new popup graphics and made some of the code less stupid
++Added different notifier location behaviors: Cursor Position, Random Position, and Screen Center.
++Changed popup graphic timer from 24 hours to 2 hours (will be configurable later)
+-Removed some debug output
 
 v1.2
 +Added new popup graphics

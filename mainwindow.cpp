@@ -3,6 +3,7 @@
 #include <QTimer>
 #include <QCloseEvent>
 #include <QDebug>
+#include <QDesktopWidget>
 
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent),
@@ -14,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setStyleSheet("background:transparent;");
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     this->setAttribute(Qt::WA_NoSystemBackground, true);
-    this->move(QCursor::pos());
+    this->mode = RC_CURSOR;
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(close()));
     timer->start(1250);
@@ -32,25 +33,44 @@ void MainWindow::closeEvent(QCloseEvent * event)
 
 void MainWindow::ChgGraphic(int phase)
 {
-    if(phase == 0)
+    QString filename = ":/rc"+QString::number(rand()%std::min(phase+1,3)+1)+".png";
+#ifdef DEBUG
+    qDebug("rand phase batch: %d %d %d %d\n", rand()%std::min(phase+1,3)+1,rand()%std::min(phase+1,3)+1,rand()%std::min(phase+1,3)+1,rand()%std::min(phase+1,3)+1);
+    qDebug("filename: %s %d %d\n",qPrintable(filename), QPixmap(filename).width(),QPixmap(filename).height() );
+#endif
+    setGeometry(this->geometry().x(), this->geometry().y(), QPixmap(filename).width(), QPixmap(filename).height());
+    this->ui->centralWidget->resize(QPixmap(filename).width(),QPixmap(filename).height());
+    this->ui->label->setGeometry(0,0,QPixmap(filename).width(),QPixmap(filename).height());
+    this->ui->label->setPixmap(QPixmap(filename));
+}
+
+void MainWindow::setPositionMode(RC_POSITION_MODE m)
+{
+    mode=m;
+    switch(mode)
     {
-        QString filename = ":/rc.png";
-        setGeometry(this->geometry().x(), this->geometry().y(), QPixmap(filename).width(), QPixmap(filename).height());
-        this->ui->centralWidget->resize(QPixmap(filename).width(),QPixmap(filename).height());
-        this->ui->label->setGeometry(0,0,QPixmap(filename).width(),QPixmap(filename).height());
-        return;
+    case RC_CURSOR:
+    {
+        this->move(QCursor::pos());
     }
-    else
+        break;
+    case RC_RANDOM:
     {
-        if(true)
-        {
-            QString filename = ":/rc"+QString::number(rand()%std::min(phase,3)+2)+".png";
-            qDebug("filename: %s %d %d\n",qPrintable(filename), QPixmap(filename).width(),QPixmap(filename).height() );
-            //this->ui->label->setPixmap(QPixmap(filename));
-            setGeometry(this->geometry().x(), this->geometry().y(), QPixmap(filename).width(), QPixmap(filename).height());
-            this->ui->centralWidget->resize(QPixmap(filename).width(),QPixmap(filename).height());
-            this->ui->label->setGeometry(0,0,QPixmap(filename).width(),QPixmap(filename).height());
-            this->ui->label->setPixmap(QPixmap(filename));
-        }
+        int x,y;
+        QRect r = QApplication::desktop()->availableGeometry();
+        x = rand()%r.width();
+        y = rand()%r.height();
+        this->move(x,y);
+    }
+        break;
+    case RC_CENTER:
+    {
+        int x,y;
+        QRect r = QApplication::desktop()->screenGeometry();
+        x = r.width()/2-this->geometry().width()/2;
+        y = r.height()/2-this->geometry().height()/2;
+        this->move(x,y);
+    }
+        break;
     }
 }

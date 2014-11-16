@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QTimer>
 #include <cstdio>
+#include <global.h>
 
 int main(int argc, char *argv[])
 {

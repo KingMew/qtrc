@@ -41,7 +41,7 @@
       <x>0</x>
       <y>20</y>
       <width>351</width>
-      <height>166</height>
+      <height>247</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -103,7 +103,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="spacer">
        <property name="font">
         <font>
@@ -111,21 +111,60 @@
         </font>
        </property>
        <property name="text">
-        <string> </string>
+        <string/>
        </property>
        <property name="margin">
         <number>6</number>
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="1">
+      <widget class="QComboBox" name="positionMode">
+       <item>
+        <property name="text">
+         <string>Cursor Position</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Random Position</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Screen Center</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Notification Location:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QSpinBox" name="stopHours">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
       <widget class="QCheckBox" name="stopCheck">
        <property name="text">
         <string>Stop after </string>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="6" column="1">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Hours</string>
@@ -135,13 +174,16 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QSpinBox" name="stopHours">
-       <property name="enabled">
+     <item row="9" column="1">
+      <widget class="QPushButton" name="goButton">
+       <property name="text">
+        <string>Start</string>
+       </property>
+       <property name="default">
         <bool>false</bool>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <property name="flat">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -160,25 +202,6 @@
      <string>qtrc Configuration</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="goButton">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>200</y>
-      <width>85</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Start</string>
-    </property>
-    <property name="default">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -186,7 +209,7 @@
      <x>0</x>
      <y>0</y>
      <width>350</width>
-     <height>23</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>
