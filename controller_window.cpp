@@ -30,7 +30,7 @@ controller_window::controller_window(QWidget *parent) :
     phaseD = false;
     this->phasetimer->setInterval(PHASETIMER_DURATION);
     this->phasetimer->start();
-    readConfig();
+    //readConfig();
     moveToCenter();
     connect(timer,SIGNAL(timeout()),this,SLOT(ShowRC()));
     connect(stoptimer,SIGNAL(timeout()),this,SLOT(Shutdown()));
@@ -157,7 +157,7 @@ void controller_window::ShowRC()
     rc->show();
     int duration = TIMER_DURATION;
 #ifdef QTRC_DEBUG
-	    ("Next duration: %d\n",duration);
+	    qDebug("Next duration: %d\n",duration);
 #endif
     this->timer->setInterval(duration);
     this->timer->start();
