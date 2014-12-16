@@ -35,6 +35,7 @@ private:
 
     void getPositionMode();
     void moveToCenter();
+    void readConfig();
 };
 
 #endif // CONTROLLER_WINDOW_H

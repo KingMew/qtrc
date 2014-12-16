@@ -1,7 +1,16 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-//#define DEBUG
+//#define QTRC_DEBUG
+
+//Define app name for config files/folders
+#define APP_NAME "qtrc"
+
+#if defined(WIN32) || defined(_WIN32)
+#define PATH_SEPARATOR "\\"
+#else
+#define PATH_SEPARATOR "/"
+#endif
 
 enum RC_POSITION_MODE {
     RC_CURSOR,

@@ -34,7 +34,7 @@ void MainWindow::closeEvent(QCloseEvent * event)
 void MainWindow::ChgGraphic(int phase)
 {
     QString filename = ":/rc"+QString::number(rand()%std::min(phase+1,3)+1)+".png";
-#ifdef DEBUG
+#ifdef QTRC_DEBUG
     qDebug("rand phase batch: %d %d %d %d\n", rand()%std::min(phase+1,3)+1,rand()%std::min(phase+1,3)+1,rand()%std::min(phase+1,3)+1,rand()%std::min(phase+1,3)+1);
     qDebug("filename: %s %d %d\n",qPrintable(filename), QPixmap(filename).width(),QPixmap(filename).height() );
 #endif
@@ -49,28 +49,28 @@ void MainWindow::setPositionMode(RC_POSITION_MODE m)
     mode=m;
     switch(mode)
     {
-    case RC_CURSOR:
-    {
-        this->move(QCursor::pos());
-    }
-        break;
-    case RC_RANDOM:
-    {
-        int x,y;
-        QRect r = QApplication::desktop()->availableGeometry();
-        x = rand()%r.width();
-        y = rand()%r.height();
-        this->move(x,y);
-    }
-        break;
-    case RC_CENTER:
-    {
-        int x,y;
-        QRect r = QApplication::desktop()->screenGeometry();
-        x = r.width()/2-this->geometry().width()/2;
-        y = r.height()/2-this->geometry().height()/2;
-        this->move(x,y);
-    }
-        break;
+	case RC_CURSOR:
+	{
+	    this->move(QCursor::pos());
+	}
+	    break;
+	case RC_RANDOM:
+	{
+	    int x,y;
+	    QRect r = QApplication::desktop()->availableGeometry();
+	    x = rand()%r.width();
+	    y = rand()%r.height();
+	    this->move(x,y);
+	}
+	    break;
+	case RC_CENTER:
+	{
+	    int x,y;
+	    QRect r = QApplication::desktop()->screenGeometry();
+	    x = r.width()/2-this->geometry().width()/2;
+	    y = r.height()/2-this->geometry().height()/2;
+	    this->move(x,y);
+	}
+	    break;
     }
 }
