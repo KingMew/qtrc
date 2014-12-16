@@ -44,6 +44,7 @@ controller_window::~controller_window()
     delete ui;
 }
 
+//Work in progress function. No touchy -Mew
 void controller_window::readConfig()
 {
     QString configDirPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)+PATH_SEPARATOR+APP_NAME;

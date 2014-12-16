@@ -11,10 +11,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     //setWindowFlags(windowFlags() | Qt::Tool);
-    this->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowSystemMenuHint | Qt::WindowDoesNotAcceptFocus);
     this->setStyleSheet("background:transparent;");
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     this->setAttribute(Qt::WA_NoSystemBackground, true);
+    this->setAttribute(Qt::WA_ShowWithoutActivating);
     this->mode = RC_CURSOR;
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(close()));
