@@ -12,6 +12,8 @@
 #define PATH_SEPARATOR "/"
 #endif
 
+#define MAX_PHASES 3
+
 enum RC_POSITION_MODE {
     RC_CURSOR,
     RC_RANDOM,

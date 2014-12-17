@@ -178,8 +178,8 @@ void controller_window::AddPhase()
 {
     if(!phaseD)
     {
-	phase = std::min(phase+1,3);
-	if(phase == 3)
+	phase = std::min(phase+1,MAX_PHASES);
+	if(phase == MAX_PHASES)
 	{
 	    phaseD = true;
 	}

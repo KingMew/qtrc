@@ -34,7 +34,7 @@ void MainWindow::closeEvent(QCloseEvent * event)
 
 void MainWindow::ChgGraphic(int phase)
 {
-    QString filename = ":/rc"+QString::number(rand()%std::min(phase+1,3)+1)+".png";
+    QString filename = ":/rc"+QString::number(rand()%std::min(phase+1,MAX_PHASES)+1)+".png";
 #ifdef QTRC_DEBUG
     qDebug("rand phase batch: %d %d %d %d\n", rand()%std::min(phase+1,3)+1,rand()%std::min(phase+1,3)+1,rand()%std::min(phase+1,3)+1,rand()%std::min(phase+1,3)+1);
     qDebug("filename: %s %d %d\n",qPrintable(filename), QPixmap(filename).width(),QPixmap(filename).height() );
