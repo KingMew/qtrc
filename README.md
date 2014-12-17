@@ -15,5 +15,6 @@ Pics or it didn't happen?
 -------------------------
 
 ![Reality Check](http://www.mew151.net/creative/qtrc.png "Reality check!")
+
 Here is a picture of qtrc in action! The appearance of the notifications depends on whether you have a compositing window manager or not. If your window manager does compositing, it should show up transparent. Otherwise, you'll get a black background like this or something.
 
