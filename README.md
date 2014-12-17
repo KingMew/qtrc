@@ -7,8 +7,10 @@ Compiling
 ---------
 
 In order to compile qtrc, you need Qt 5.2. You'll need to install the latest versions of the Qt and Qt development packages. On Linux, you can simply run 
-	$ qmake
-	$ make
+    
+    $ qmake
+    $ make
+
 And all will be done. On Windows, you'll have to compile in Qt Creator, which should be even easier.
 
 Pics or it didn't happen?
