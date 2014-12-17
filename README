@@ -1,4 +1,4 @@
-qtrc v1.3.0
+qtrc v1.3.1
 by Mew151 from LD4all
 
 ==Overview==
@@ -22,6 +22,10 @@ And it will be done.
 To run qtrc, simply run "qtrc" from the terminal, file manager, start menu, etc.
 
 ==Changelog==
+
+v1.3.1
++Fixed bug where focus is blocked when RC notification pops up.
+-Removed more debug output. And added more, but now you have to compile it specifically to output debug info.
 
 v1.3
 +Fixed new popup graphics and made some of the code less stupid
