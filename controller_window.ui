@@ -31,13 +31,9 @@
   <property name="windowTitle">
    <string>Qtrc Configuration</string>
   </property>
-  <!--
-  Fix for Qt versions under 5.2 (Like if you're running Ubuntu)
-    This property doesn't matter anyway.
   <property name="toolTipDuration">
    <number>7</number>
   </property>
-  -->
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="formLayoutWidget">
     <property name="geometry">
