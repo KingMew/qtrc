@@ -1,4 +1,4 @@
-qtrc v1.3.1
+qtrc v1.4.0
 by Mew151 from LD4all
 
 ==Overview==
@@ -13,7 +13,6 @@ your distribution's versions of the latest version of Qt and the Qt development 
 Then you can simply run:
 	qmake
 	make
-	sudo make install
 
 And it will be done.
 
@@ -22,6 +21,15 @@ And it will be done.
 To run qtrc, simply run "qtrc" from the terminal, file manager, start menu, etc.
 
 ==Changelog==
+
+v1.4.0
++Added DBus functions:
+	+To reshow the configuration window, just launch qtrc again.
+	+To exit out completely, you can run pass "--exit" to qtrc.
+	+To show the RC notification, you can pass "--show" to qtrc. (Idk, I thought it might be useful?)
++Added "Exit" Button to main interface.
++Added "Stop" functionality to main interface when being reconfigured.
++Cleaned up code
 
 v1.3.1
 +Fixed bug where focus is blocked when RC notification pops up.

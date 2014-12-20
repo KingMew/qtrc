@@ -15,9 +15,9 @@
 #define MAX_PHASES 3
 
 enum RC_POSITION_MODE {
-    RC_CURSOR,
-    RC_RANDOM,
-    RC_CENTER
+	RC_CURSOR,
+	RC_RANDOM,
+	RC_CENTER
 };
 
 /*TODO:

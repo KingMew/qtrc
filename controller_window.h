@@ -6,36 +6,37 @@
 #include <global.h>
 
 namespace Ui {
-class controller_window;
+	class controller_window;
 }
 
 class controller_window : public QMainWindow
 {
-    Q_OBJECT
+		Q_OBJECT
 
-public:
-    explicit controller_window(QWidget *parent = 0);
-    ~controller_window();
+	public:
+		explicit controller_window(QWidget *parent = 0);
+		bool isActive();
+		~controller_window();
 
-public slots:
-    void StartRC();
-    void ToggleStops();
-    void ShowRC();
-    void Shutdown();
-    void AddPhase();
+	public slots:
+		void StartRC();
+		void ToggleStops();
+		void ShowRC();
+		void Shutdown();
+		void AddPhase();
 
-private:
-    Ui::controller_window *ui;
-    QTimer* timer;
-    QTimer* stoptimer;
-    QTimer* phasetimer;
-    int min, max, stophours, phase;
-    RC_POSITION_MODE positionMode;
-    bool phaseD;
+	private:
+		Ui::controller_window *ui;
+		QTimer* timer;
+		QTimer* stoptimer;
+		QTimer* phasetimer;
+		int min, max, stophours, phase;
+		RC_POSITION_MODE positionMode;
+		bool phaseD;
 
-    void getPositionMode();
-    void moveToCenter();
-    void readConfig();
+		void getPositionMode();
+		void moveToCenter();
+		void readConfig();
 };
 
 #endif // CONTROLLER_WINDOW_H

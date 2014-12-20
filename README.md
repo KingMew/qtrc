@@ -13,6 +13,11 @@ In order to compile qtrc, you need Qt 5.2. You'll need to install the latest ver
 
 And all will be done. On Windows, you'll have to compile in Qt Creator, which should be even easier.
 
+Using
+-----
+
+To use qtrc, launch it, fill in the info, and click "Start". It's pretty self explanatory. One thing that might not be so easy to figure out is how to reconfigure or exit an already running instance of qtrc. Simply launch the application again to reconfigure or exit the application. If you're a savvy console user, then you can run `qtrc --exit` to exit out of the application without wasting the second it takes to click the "Exit" button.
+
 Pics or it didn't happen?
 -------------------------
 

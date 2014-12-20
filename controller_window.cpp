@@ -18,190 +18,206 @@
 #define MODE_CENTER "Screen Center"
 
 controller_window::controller_window(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::controller_window)
+	QMainWindow(parent),
+	ui(new Ui::controller_window)
 {
-    srand(time(NULL));
-    ui->setupUi(this);
-    phase = 0;
-    timer = new QTimer(this);
-    stoptimer = new QTimer(this);
-    phasetimer = new QTimer(this);
-    phaseD = false;
-    this->phasetimer->setInterval(PHASETIMER_DURATION);
-    this->phasetimer->start();
-    //readConfig();
-    moveToCenter();
-    connect(timer,SIGNAL(timeout()),this,SLOT(ShowRC()));
-    connect(stoptimer,SIGNAL(timeout()),this,SLOT(Shutdown()));
-    connect(phasetimer,SIGNAL(timeout()),SLOT(AddPhase()));
-    connect(ui->goButton,SIGNAL(clicked()),this,SLOT(StartRC()));
-    connect(ui->stopCheck,SIGNAL(clicked()),this,SLOT(ToggleStops()));
+	srand(time(NULL));
+	ui->setupUi(this);
+	phase = 0;
+	timer = new QTimer(this);
+	stoptimer = new QTimer(this);
+	phasetimer = new QTimer(this);
+	phaseD = false;
+	this->phasetimer->setInterval(PHASETIMER_DURATION);
+	this->phasetimer->start();
+	//readConfig();
+	moveToCenter();
+	connect(timer,SIGNAL(timeout()),this,SLOT(ShowRC()));
+	connect(stoptimer,SIGNAL(timeout()),this,SLOT(Shutdown()));
+	connect(phasetimer,SIGNAL(timeout()),SLOT(AddPhase()));
+	connect(ui->goButton,SIGNAL(clicked()),this,SLOT(StartRC()));
+	connect(ui->stopCheck,SIGNAL(clicked()),this,SLOT(ToggleStops()));
+	connect(ui->exitButton,SIGNAL(clicked()),this,SLOT(Shutdown()));
 }
 
 controller_window::~controller_window()
 {
-    delete ui;
+	delete ui;
 }
 
 //Work in progress function. No touchy -Mew
 void controller_window::readConfig()
 {
-    QString configDirPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)+PATH_SEPARATOR+APP_NAME;
-    if(!QDir(configDirPath).exists())
-    {
-	QDir().mkdir(configDirPath);
-    }
-
-    QString configPath = configDirPath+PATH_SEPARATOR+"config";
-    FILE *configFile = fopen(configPath.toStdString().c_str(),"r");
-    if(configFile!=NULL)
-    {
-	printf("Config file found, reading...\n");
-	char buffer[256];
-	while(fgets(buffer,sizeof(buffer),configFile))
+	QString configDirPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)+PATH_SEPARATOR+APP_NAME;
+	if(!QDir(configDirPath).exists())
 	{
-	    QString curLine = buffer;
-
+		QDir().mkdir(configDirPath);
 	}
-    }
-    else
-    {
-	printf("Config file not found at location: %s\n"
-	       "Creating file now...\n",configPath.toStdString().c_str());
-	configFile = fopen(configPath.toStdString().c_str(),"w");
-	if(configFile==NULL)
+
+	QString configPath = configDirPath+PATH_SEPARATOR+"config";
+	FILE *configFile = fopen(configPath.toStdString().c_str(),"r");
+	if(configFile!=NULL)
 	{
-	    fprintf(stderr,"Cannot write to config file. Aborting and using program defaults.\n");
-	    return;
+		printf("Config file found, reading...\n");
+		char buffer[256];
+		while(fgets(buffer,sizeof(buffer),configFile))
+		{
+			QString curLine = buffer;
+
+		}
 	}
 	else
 	{
-	    fprintf(configFile,"#qtrc config file\n"
-			       "MIN_DURATION=170\n"
-			       "MAX_DURATION=270\n"
-			       "LOCATION=CURSOR\n"
-			       "STOP=no\n"
-			       "STOP_HOURS=0\n"
-			       "#do a RC!"
-		    );
-	    printf("Config file written!\n");
+		printf("Config file not found at location: %s\n"
+			   "Creating file now...\n",configPath.toStdString().c_str());
+		configFile = fopen(configPath.toStdString().c_str(),"w");
+		if(configFile==NULL)
+		{
+			fprintf(stderr,"Cannot write to config file. Aborting and using program defaults.\n");
+			return;
+		}
+		else
+		{
+			fprintf(configFile,"#qtrc config file\n"
+							   "MIN_DURATION=170\n"
+							   "MAX_DURATION=270\n"
+							   "LOCATION=CURSOR\n"
+							   "STOP=no\n"
+							   "STOP_HOURS=0\n"
+							   "#do a RC!"
+					);
+			printf("Config file written!\n");
+		}
 	}
-    }
-    fclose(configFile);
+	fclose(configFile);
 }
 
 void controller_window::StartRC()
 {
-    min=this->ui->minDuration->text().toInt();
-    max=this->ui->maxDuration->text().toInt();
-    getPositionMode();
-    int stopCheck = (!this->ui->stopCheck->isChecked()||this->ui->stopHours->text().toInt()>0);
-    if(min>0 && max>=min && stopCheck)
-    {
-	this->hide();
-	timer->start(TIMER_DURATION);
-	if(this->ui->stopHours->text().toInt()>0 && this->ui->stopCheck->isChecked())
+	if(timer->isActive())
 	{
-	    stoptimer->start(this->ui->stopHours->text().toInt()*60000);
+		timer->stop();
+		this->ui->goButton->setText("Start");
+		return;
 	}
-    }
-    else
-    {
-	QMessageBox msg;
-	msg.setText("Invalid Configuration");
-	if(min<=0)
+	else
 	{
-	    msg.setInformativeText("Minimum duration must be greater than zero.");
+		min=this->ui->minDuration->text().toInt();
+		max=this->ui->maxDuration->text().toInt();
+		getPositionMode();
+		int stopCheck = (!this->ui->stopCheck->isChecked()||this->ui->stopHours->text().toInt()>0);
+		if(min>0 && max>=min && stopCheck)
+		{
+			this->hide();
+			this->ui->goButton->setText("Stop");
+			timer->start(TIMER_DURATION);
+			if(this->ui->stopHours->text().toInt()>0 && this->ui->stopCheck->isChecked())
+			{
+				stoptimer->start(this->ui->stopHours->text().toInt()*60000);
+			}
+		}
+		else
+		{
+			QMessageBox msg;
+			msg.setText("Invalid Configuration");
+			if(min<=0)
+			{
+				msg.setInformativeText("Minimum duration must be greater than zero.");
+			}
+			else if(max<min)
+			{
+				msg.setInformativeText("Maximum duration must be greater or equal to minimum duration.");
+			}
+			else if(!stopCheck)
+			{
+				msg.setInformativeText("Hours must be greater than 0.");
+			}
+			msg.setStandardButtons(QMessageBox::Ok);
+			msg.setDefaultButton(QMessageBox::Ok);
+			msg.exec();
+		}
 	}
-	else if(max<min)
-	{
-	    msg.setInformativeText("Maximum duration must be greater or equal to minimum duration.");
-	}
-	else if(!stopCheck)
-	{
-	    msg.setInformativeText("Hours must be greater than 0.");
-	}
-	msg.setStandardButtons(QMessageBox::Ok);
-	msg.setDefaultButton(QMessageBox::Ok);
-	msg.exec();
-    }
 }
 
 void controller_window::getPositionMode()
 {
-    QString mode_str = this->ui->positionMode->currentText();
-    if(mode_str.compare(MODE_CURSOR)==0)
-    {
-	positionMode = RC_CURSOR;
-    }
-    else if(mode_str.compare(MODE_RANDOM)==0)
-    {
-	positionMode = RC_RANDOM;
-    }
-    else if(mode_str.compare(MODE_CENTER)==0)
-    {
-	positionMode = RC_CENTER;
-    }
-    else
-    {
-	positionMode = RC_CURSOR;
-    }
+	QString mode_str = this->ui->positionMode->currentText();
+	if(mode_str.compare(MODE_CURSOR)==0)
+	{
+		positionMode = RC_CURSOR;
+	}
+	else if(mode_str.compare(MODE_RANDOM)==0)
+	{
+		positionMode = RC_RANDOM;
+	}
+	else if(mode_str.compare(MODE_CENTER)==0)
+	{
+		positionMode = RC_CENTER;
+	}
+	else
+	{
+		positionMode = RC_CURSOR;
+	}
 }
 
 void controller_window::ShowRC()
 {
-    this->timer->stop();
-    MainWindow *rc = new MainWindow();
-    rc->ChgGraphic(phase);
-    rc->setPositionMode(positionMode);
-    rc->show();
-    int duration = TIMER_DURATION;
+	this->timer->stop();
+	MainWindow *rc = new MainWindow();
+	rc->ChgGraphic(phase);
+	rc->setPositionMode(positionMode);
+	rc->show();
+	int duration = TIMER_DURATION;
 #ifdef QTRC_DEBUG
-	    qDebug("Next duration: %d\n",duration);
+	qDebug("Next duration: %d\n",duration);
 #endif
-    this->timer->setInterval(duration);
-    this->timer->start();
+	this->timer->setInterval(duration);
+	this->timer->start();
 }
 
 void controller_window::ToggleStops()
 {
-    ui->stopHours->setEnabled(ui->stopCheck->isChecked());
+	ui->stopHours->setEnabled(ui->stopCheck->isChecked());
 }
 
 void controller_window::Shutdown()
 {
-    QApplication::exit(0);
+	QApplication::exit(0);
 }
 
 void controller_window::AddPhase()
 {
-    if(!phaseD)
-    {
-	phase = std::min(phase+1,MAX_PHASES);
-	if(phase == MAX_PHASES)
+	if(!phaseD)
 	{
-	    phaseD = true;
+		phase = std::min(phase+1,MAX_PHASES);
+		if(phase == MAX_PHASES)
+		{
+			phaseD = true;
+		}
+		return;
 	}
-	return;
-    }
-    else
-    {
-	phase = std::max(phase-1,0);
-	if(phase == 0)
+	else
 	{
-	    phaseD = false;
+		phase = std::max(phase-1,0);
+		if(phase == 0)
+		{
+			phaseD = false;
+		}
+		return;
 	}
-	return;
-    }
-    phasetimer->start();
+	phasetimer->start();
 }
 
 void controller_window::moveToCenter()
 {
-    int x,y;
-    QRect r = QApplication::desktop()->screenGeometry();
-    x = r.width()/2-this->geometry().width()/2;
-    y = r.height()/2-this->geometry().height()/2;
-    this->move(x,y);
+	int x,y;
+	QRect r = QApplication::desktop()->screenGeometry();
+	x = r.width()/2-this->geometry().width()/2;
+	y = r.height()/2-this->geometry().height()/2;
+	this->move(x,y);
+}
+
+bool controller_window::isActive()
+{
+	return timer->isActive();
 }

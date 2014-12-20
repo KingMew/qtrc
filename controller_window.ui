@@ -187,6 +187,13 @@
        </property>
       </widget>
      </item>
+     <item row="9" column="0">
+      <widget class="QPushButton" name="exitButton">
+       <property name="text">
+        <string>Exit</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QLabel" name="label">
@@ -209,7 +216,7 @@
      <x>0</x>
      <y>0</y>
      <width>350</width>
-     <height>19</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>
