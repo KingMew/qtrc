@@ -18,8 +18,6 @@ int main(int argc, char *argv[])
 		ARG_FLAG("--show",bShow) ;
 	}
 
-	QApplication a(argc, argv);
-
 	QDBusInterface qdbi("net.mew151.qtrc","/","net.mew151.qtrc");
 	QDBusMessage reply;
 	if(bStop)
@@ -38,6 +36,8 @@ int main(int argc, char *argv[])
 	{
 		return 0;
 	}
+
+	QApplication a(argc, argv);
 
 	controller_window win;
 	new qtrc_dbus(&win);

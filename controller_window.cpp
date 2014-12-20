@@ -94,48 +94,38 @@ void controller_window::readConfig()
 
 void controller_window::StartRC()
 {
-	if(timer->isActive())
+	min=this->ui->minDuration->text().toInt();
+	max=this->ui->maxDuration->text().toInt();
+	getPositionMode();
+	int stopCheck = (!this->ui->stopCheck->isChecked()||this->ui->stopHours->text().toInt()>0);
+	if(min>0 && max>=min && stopCheck)
 	{
-		timer->stop();
-		this->ui->goButton->setText("Start");
-		return;
+		this->hide();
+		timer->start(TIMER_DURATION);
+		if(this->ui->stopHours->text().toInt()>0 && this->ui->stopCheck->isChecked())
+		{
+			stoptimer->start(this->ui->stopHours->text().toInt()*60000);
+		}
 	}
 	else
 	{
-		min=this->ui->minDuration->text().toInt();
-		max=this->ui->maxDuration->text().toInt();
-		getPositionMode();
-		int stopCheck = (!this->ui->stopCheck->isChecked()||this->ui->stopHours->text().toInt()>0);
-		if(min>0 && max>=min && stopCheck)
+		QMessageBox msg;
+		msg.setText("Invalid Configuration");
+		if(min<=0)
 		{
-			this->hide();
-			this->ui->goButton->setText("Stop");
-			timer->start(TIMER_DURATION);
-			if(this->ui->stopHours->text().toInt()>0 && this->ui->stopCheck->isChecked())
-			{
-				stoptimer->start(this->ui->stopHours->text().toInt()*60000);
-			}
+			msg.setInformativeText("Minimum duration must be greater than zero.");
 		}
-		else
+		else if(max<min)
 		{
-			QMessageBox msg;
-			msg.setText("Invalid Configuration");
-			if(min<=0)
-			{
-				msg.setInformativeText("Minimum duration must be greater than zero.");
-			}
-			else if(max<min)
-			{
-				msg.setInformativeText("Maximum duration must be greater or equal to minimum duration.");
-			}
-			else if(!stopCheck)
-			{
-				msg.setInformativeText("Hours must be greater than 0.");
-			}
-			msg.setStandardButtons(QMessageBox::Ok);
-			msg.setDefaultButton(QMessageBox::Ok);
-			msg.exec();
+			msg.setInformativeText("Maximum duration must be greater or equal to minimum duration.");
 		}
+		else if(!stopCheck)
+		{
+			msg.setInformativeText("Hours must be greater than 0.");
+		}
+		msg.setStandardButtons(QMessageBox::Ok);
+		msg.setDefaultButton(QMessageBox::Ok);
+		msg.exec();
 	}
 }
 
